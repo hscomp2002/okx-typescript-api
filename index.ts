@@ -1,3 +1,4 @@
-export function testMe(str: string): boolean {
-    return true
+import HttpApi from "./src/httpApi";
+export default class okx {
+    HttpApi = HttpApi;
 }

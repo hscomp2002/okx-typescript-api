@@ -24,6 +24,12 @@
   },
   "homepage": "https://github.com/hscomp2002/okx-typescript-api#readme",
   "devDependencies": {
+    "@types/node": "^18.7.18",
     "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "crypto": "^1.0.1",
+    "query-string": "^7.1.1"
   }
 }
