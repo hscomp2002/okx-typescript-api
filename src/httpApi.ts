@@ -1,10 +1,14 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { sign } from "./Siner";
 import qs from "query-string";
 import { InstTyp } from "./dto/InstTyp";
-import { BalanceDto } from "./dto/balance-dto";
-import { ConfigDto } from "./dto/config-dto";
-
+import { BalanceDto } from "./dto/balance.dto";
+import { ConfigDto } from "./dto/config.dto";
+import { OkxResponse } from "./dto/okx-response.dto";
+import { PositionDto } from "./dto/position.dto";
+import { LeverageReponseDto, LeverageInputDto } from "./dto/leverage.dto";
+import { OrderInpoutDto, OrderResponseDto } from "./dto/order.dto";
+import { CancelOrderInputDto, CancelOrderResponseDto } from "./dto/cancel-order.dto";
 class HttpApi {
     apiClient: AxiosInstance;
     signer: any;
@@ -37,7 +41,7 @@ class HttpApi {
         };
     }
 
-    async get<Type>(path: string, params: any = ""): Promise<Type> {
+    async get<T>(path: string, params: any = ""): Promise<T> {
         if (params) {
             for (const key of Object.keys(params || {})) {
                 if (params[key] === null || params[key] === undefined)
@@ -46,29 +50,24 @@ class HttpApi {
             path += "?" + qs.stringify(params);
         }
 
-        const {
-            data: { data },
-        } = await this.apiClient.get(path, {
+        const res = await this.apiClient.get<any, AxiosResponse<T, any>, T>(path, {
             headers: this.getSignedHeader("GET", path),
         });
-        return data as Type;
+        return res.data;
     }
 
-    async post(path: string, body: any) {
+    async post<T>(path: string, body: any): Promise<T> {
         const headers = {
             ...this.getSignedHeader("POST", path, body),
             "Content-Type": "application/json",
         };
 
-        const {
-            data: { data },
-        } = await this.apiClient.post(path, body, { headers });
-        return data;
-    }
-
-    async fetchOne<Type>(input: any[]) {
-        const [ret] = input;
-        return ret as Type;
+        const res = await this.apiClient.post<any, AxiosResponse<T, any>, T>(
+            path,
+            body,
+            { headers }
+        );
+        return res.data;
     }
 
     async getTickers(instType: InstTyp) {
@@ -81,30 +80,71 @@ class HttpApi {
     }
 
     async getAccountConfig(): Promise<ConfigDto> {
-        const path = "/api/v5/account/config";
-        const res = this.get<ConfigDto[]>(path);
-        return this.fetchOne<ConfigDto>(res);
-        // const {
-        //     data: { data },
-        // } = await this.apiClient.get(path, {
-        //     headers: this.getSignedHeader("GET", path),
-        // });
-        // return this.fetchOne(data);
+        const res = await this.get<OkxResponse<ConfigDto[]>>(
+            "/api/v5/account/config"
+        );
+        return res.data[0];
     }
 
     async getBalance(coins: string = ""): Promise<BalanceDto> {
-        const path = "/api/v5/account/balance";
-        const {
-            data: { data },
-        } = await this.apiClient.get(path, {
-            headers: this.getSignedHeader("GET", path),
-        });
-        return this.fetchOne(data);
+        const res = await this.get<OkxResponse<BalanceDto[]>>(
+            "/api/v5/account/balance",
+            { ccy: coins }
+        );
+        return res.data[0];
     }
 
-    // getPositions(instType: InstTyp, instId) {
-    //     return this.get('/api/v5/account/positions', { instType, instId });
-    // }
+    async getPositions(
+        instType: InstTyp | string = "",
+        instId: string = "",
+        posId: string = ""
+    ): Promise<PositionDto[]> {
+        const res = await this.get<OkxResponse<PositionDto[]>>(
+            "/api/v5/account/positions",
+            { instType, instId, posId }
+        );
+        return res.data;
+    }
+
+    async setLeverage(input: LeverageInputDto): Promise<LeverageReponseDto> {
+        const res = await this.post<OkxResponse<LeverageReponseDto[]>>(
+            "/api/v5/account/set-leverage",
+            input
+        );
+        return res.data[0];
+    }
+
+    async placeOrder(input: OrderInpoutDto): Promise<OrderResponseDto> {
+        const res = await this.post<OkxResponse<OrderResponseDto[]>>(
+            "/api/v5/trade/order",
+            input
+        );
+        return res.data[0];
+    }
+
+    async placeMultipleOrders(input: OrderInpoutDto[]): Promise<OrderResponseDto[]> {
+        const res = await this.post<OkxResponse<OrderResponseDto[]>>(
+            "/api/v5/trade/batch-orders",
+            input
+        );
+        return res.data;
+    }
+
+    async cancelOrder(input: CancelOrderInputDto): Promise<CancelOrderResponseDto> {
+        const res = await this.post<OkxResponse<CancelOrderResponseDto[]>>(
+            "/api/v5/trade/cancel-order",
+            input
+        );
+        return res.data[0];
+    }
+
+    async cancelMultipleOrders(input: CancelOrderInputDto[]): Promise<CancelOrderResponseDto[]> {
+        const res = await this.post<OkxResponse<CancelOrderResponseDto[]>>(
+            "/api/v5/trade/cancel-batch-orders",
+            input
+        );
+        return res.data;
+    }
 }
 
 export default HttpApi;
