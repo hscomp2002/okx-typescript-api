@@ -7,7 +7,7 @@ import { ConfigDto } from "./dto/config.dto";
 import { OkxResponse } from "./dto/okx-response.dto";
 import { PositionDto } from "./dto/position.dto";
 import { LeverageReponseDto, LeverageInputDto } from "./dto/leverage.dto";
-import { OrderInpoutDto, OrderResponseDto } from "./dto/order.dto";
+import { OrderInpoutDto, OrderResponseDto, OrderDetails, OrderListInput } from "./dto/order.dto";
 import { CancelOrderInputDto, CancelOrderResponseDto } from "./dto/cancel-order.dto";
 class HttpApi {
     apiClient: AxiosInstance;
@@ -141,6 +141,22 @@ class HttpApi {
     async cancelMultipleOrders(input: CancelOrderInputDto[]): Promise<CancelOrderResponseDto[]> {
         const res = await this.post<OkxResponse<CancelOrderResponseDto[]>>(
             "/api/v5/trade/cancel-batch-orders",
+            input
+        );
+        return res.data;
+    }
+
+    async getOrderDetails(instId: string, ordId: string = "", clOrdId: string = ""): Promise<OrderDetails> {
+        const res = await this.get<OkxResponse<OrderDetails[]>>(
+            "/api/v5/trade/order",
+            { instId, ordId, clOrdId }
+        );
+        return res.data[0];
+    }
+
+    async getOrderList(input: OrderListInput | undefined = undefined): Promise<OrderDetails[]> {
+        const res = await this.get<OkxResponse<OrderDetails[]>>(
+            "/api/v5/trade/orders-pending",
             input
         );
         return res.data;
