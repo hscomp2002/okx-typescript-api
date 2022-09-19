@@ -5,7 +5,7 @@ import { InstTyp } from "./dto/InstTyp";
 import { BalanceDto } from "./dto/balance.dto";
 import { ConfigDto } from "./dto/config.dto";
 import { OkxResponse } from "./dto/okx-response.dto";
-import { PositionDto } from "./dto/position.dto";
+import { ClosePositionsInputDto, ClosePositionsResponseDto, PositionDto } from "./dto/position.dto";
 import { LeverageReponseDto, LeverageInputDto } from "./dto/leverage.dto";
 import { OrderInpoutDto, OrderResponseDto, OrderDetails, OrderListInput } from "./dto/order.dto";
 import { CancelOrderInputDto, CancelOrderResponseDto } from "./dto/cancel-order.dto";
@@ -157,6 +157,14 @@ class HttpApi {
     async getOrderList(input: OrderListInput | undefined = undefined): Promise<OrderDetails[]> {
         const res = await this.get<OkxResponse<OrderDetails[]>>(
             "/api/v5/trade/orders-pending",
+            input
+        );
+        return res.data;
+    }
+
+    async closePositions(input: ClosePositionsInputDto): Promise<ClosePositionsResponseDto[]> {
+        const res = await this.post<OkxResponse<ClosePositionsResponseDto[]>>(
+            "/api/v5/trade/close-position",
             input
         );
         return res.data;

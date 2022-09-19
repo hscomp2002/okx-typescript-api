@@ -41,3 +41,20 @@ export class PositionDto {
     vegaBS!: string;
     vegaPA!: string;
 }
+
+export class ClosePositionsInputDto {
+    instId!: string;
+    posSide?: string;
+    mgnMode!: "cross" | "isolated";
+    ccy?: string;
+    tag?: string;
+    autoCxl?: string;
+    clOrdId?: string;
+}
+
+export class ClosePositionsResponseDto {
+    instId!: string;
+    posSide!: string;
+    clOrdId!: string;
+    tag!: string;
+}
