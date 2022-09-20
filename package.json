@@ -1,6 +1,6 @@
 {
   "name": "okx-typescript-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "typescript module for okx.com API (hscomp2002@gmail.com)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,8 +14,11 @@
     "url": "git+https://github.com/hscomp2002/okx-typescript-api.git"
   },
   "keywords": [
-    "okx-node-api",
-    "okex-node-api"
+    "okex",
+    "api",
+    "typescript",
+    "okx-api",
+    "okex-api"
   ],
   "author": "Hamed Shakery <hscomp2002@gmail.com>",
   "license": "ISC",
