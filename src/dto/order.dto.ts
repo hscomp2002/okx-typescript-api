@@ -95,3 +95,52 @@ export class OrderListInput {
     before?: string;
     limit?: string = "100";
 }
+
+export class AlgoOrderInpoutDto {
+    instId!: string;
+    tdMode!: "cash" | "isolated" | "cross";
+    ccy?: string;
+    side!: "buy" | "sell";
+    posSide?: "long" | "short";
+    ordType!:
+        | "market"
+        | "limit"
+        | "post_only"
+        | "fok"
+        | "ioc"
+        | "optimal_limit_ioc";
+
+    sz!: string;
+    tag?: string;
+    reduceOnly?: boolean;
+    tgtCcy?: "quote_ccy" | "base_ccy";
+    clOrdId?: string;
+
+    tpOrdPx?: string;
+    tpTriggerPxType?: string;
+    tpTriggerPx?: string;
+    slTriggerPx?: string;
+    slTriggerPxType?: string;
+    slOrdPx?: string;
+
+    triggerPx!: string;
+    orderPx!: string;
+    triggerPxType?: "last" | "mark" | "index";
+
+    callbackRatio?: string;
+    callbackSpread?: string;
+    activePx?: string;
+}
+
+export class AlgoOrderResponseDto {
+    algoId!: string;
+    clOrdId!: string;
+    sCode!: string;
+    sMsg!: string;
+}
+
+export class CancelAlgoOrderResponseDto {
+    algoId!: string;
+    sCode!: string;
+    sMsg!: string;
+}
