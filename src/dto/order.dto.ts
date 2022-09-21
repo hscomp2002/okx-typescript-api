@@ -120,7 +120,7 @@ export class AlgoOrderInpoutDto {
     tpTriggerPxType?: string;
     tpTriggerPx?: string;
     slTriggerPx?: string;
-    slTriggerPxType?: string;
+    slTriggerPxType?: "last" | "mark" | "index";
     slOrdPx?: string;
 
     triggerPx!: string;
