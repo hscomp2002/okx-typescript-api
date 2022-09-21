@@ -7,7 +7,7 @@ import { ConfigDto } from "./dto/config.dto";
 import { OkxResponse } from "./dto/okx-response.dto";
 import { ClosePositionsInputDto, ClosePositionsResponseDto, PositionDto } from "./dto/position.dto";
 import { LeverageReponseDto, LeverageInputDto } from "./dto/leverage.dto";
-import { OrderInpoutDto, OrderResponseDto, OrderDetails, OrderListInput, AlgoOrderInpoutDto, AlgoOrderResponseDto } from "./dto/order.dto";
+import { OrderInpoutDto, OrderResponseDto, OrderDetails, OrderListInput, AlgoOrderInpoutDto, AlgoOrderResponseDto, AlgoStopTpInputDto, AlgoTrailStopInputDto, AlgoTrigetInputDto, AlgoIcebergInputDto, AlgoTWAPInputDto } from "./dto/order.dto";
 import { CancelOrderInputDto, CancelOrderResponseDto } from "./dto/cancel-order.dto";
 class HttpApi {
     apiClient: AxiosInstance;
@@ -170,10 +170,11 @@ class HttpApi {
         return res.data;
     }
 
-    async placeAlgoOrder(input: AlgoOrderInpoutDto): Promise<AlgoOrderResponseDto> {
+    async placeAlgoOrder(input: AlgoOrderInpoutDto, input2: AlgoStopTpInputDto | AlgoTrailStopInputDto | AlgoTrigetInputDto | AlgoIcebergInputDto | AlgoTWAPInputDto): Promise<AlgoOrderResponseDto> {
+        const data = { ...input, ...input2 };
         const res = await this.post<OkxResponse<AlgoOrderResponseDto[]>>(
             "/api/v5/trade/order-algo",
-            input
+            data
         );
         return res.data[0];
     }

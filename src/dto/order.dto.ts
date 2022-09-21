@@ -103,33 +103,54 @@ export class AlgoOrderInpoutDto {
     side!: "buy" | "sell";
     posSide?: "long" | "short";
     ordType!:
-        | "market"
-        | "limit"
-        | "post_only"
-        | "fok"
-        | "ioc"
-        | "optimal_limit_ioc";
+        | "conditional"
+        | "oco"
+        | "trigger"
+        | "move_order_stop"
+        | "iceberg"
+        | "twap";
 
     sz!: string;
     tag?: string;
     reduceOnly?: boolean;
     tgtCcy?: "quote_ccy" | "base_ccy";
     clOrdId?: string;
+}
 
+export class AlgoStopTpInputDto {
     tpOrdPx?: string;
     tpTriggerPxType?: string;
     tpTriggerPx?: string;
     slTriggerPx?: string;
     slTriggerPxType?: "last" | "mark" | "index";
     slOrdPx?: string;
+}
 
+export class AlgoTrigetInputDto {
     triggerPx!: string;
     orderPx!: string;
     triggerPxType?: "last" | "mark" | "index";
+}
 
+export class AlgoTrailStopInputDto {
     callbackRatio?: string;
     callbackSpread?: string;
     activePx?: string;
+}
+
+export class AlgoIcebergInputDto {
+    pxVar?: string;
+    pxSpread?: string;
+    szLimit!: string;
+    pxLimit!: string;
+}
+
+export class AlgoTWAPInputDto {
+    pxVar?: string;
+    pxSpread?: string;
+    szLimit!: string;
+    pxLimit!: string;
+    timeInterval!: string;
 }
 
 export class AlgoOrderResponseDto {
