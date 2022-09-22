@@ -7,8 +7,9 @@ import { ConfigDto } from "./dto/config.dto";
 import { OkxResponse } from "./dto/okx-response.dto";
 import { ClosePositionsInputDto, ClosePositionsResponseDto, PositionDto } from "./dto/position.dto";
 import { LeverageReponseDto, LeverageInputDto } from "./dto/leverage.dto";
-import { OrderInpoutDto, OrderResponseDto, OrderDetails, OrderListInput, AlgoOrderInpoutDto, AlgoOrderResponseDto, AlgoStopTpInputDto, AlgoTrailStopInputDto, AlgoTrigetInputDto, AlgoIcebergInputDto, AlgoTWAPInputDto } from "./dto/order.dto";
+import { OrderInpoutDto, OrderResponseDto, OrderDetails, OrderListInput, AlgoOrderInpoutDto, AlgoOrderResponseDto, AlgoStopTpInputDto, AlgoTrailStopInputDto, AlgoTrigetInputDto, AlgoIcebergInputDto, AlgoTWAPInputDto, CancelAlgoOrderInputDto } from "./dto/order.dto";
 import { CancelOrderInputDto, CancelOrderResponseDto } from "./dto/cancel-order.dto";
+import { CurrencyDto } from "./dto/currency.dto";
 class HttpApi {
     apiClient: AxiosInstance;
     signer: any;
@@ -179,15 +180,21 @@ class HttpApi {
         return res.data[0];
     }
 
-    async cancelAlgoOrder(algoId: string, instId: string): Promise<AlgoOrderResponseDto> {
+    async cancelAlgoOrders(input: CancelAlgoOrderInputDto[]): Promise<AlgoOrderResponseDto> {
         const res = await this.post<OkxResponse<AlgoOrderResponseDto[]>>(
             "/api/v5/trade/cancel-algos",
-            {
-                algoId,
-                instId
-            }
+            input
         );
         return res.data[0];
+    }
+
+    async getCurrencies(ccy: string = ""): Promise<CurrencyDto[]> {
+        const res = await this.get<OkxResponse<CurrencyDto[]>>(
+            "/api/v5/asset/currencies",
+            { ccy }
+        );
+
+        return res.data;
     }
 }
 

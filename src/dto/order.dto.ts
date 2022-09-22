@@ -160,6 +160,10 @@ export class AlgoOrderResponseDto {
     sMsg!: string;
 }
 
+export class CancelAlgoOrderInputDto {
+    algoId!: string;
+    instId!: string
+}
 export class CancelAlgoOrderResponseDto {
     algoId!: string;
     sCode!: string;
