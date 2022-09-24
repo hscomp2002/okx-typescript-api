@@ -7,9 +7,10 @@ import { ConfigDto } from "./dto/config.dto";
 import { OkxResponse } from "./dto/okx-response.dto";
 import { ClosePositionsInputDto, ClosePositionsResponseDto, PositionDto } from "./dto/position.dto";
 import { LeverageReponseDto, LeverageInputDto } from "./dto/leverage.dto";
-import { OrderInpoutDto, OrderResponseDto, OrderDetails, OrderListInput, AlgoOrderInpoutDto, AlgoOrderResponseDto, AlgoStopTpInputDto, AlgoTrailStopInputDto, AlgoTrigetInputDto, AlgoIcebergInputDto, AlgoTWAPInputDto, CancelAlgoOrderInputDto } from "./dto/order.dto";
+import { OrderInpoutDto, OrderResponseDto, OrderDetails, OrderListInput, AlgoOrderInpoutDto, AlgoOrderResponseDto, AlgoStopTpInputDto, AlgoTrailStopInputDto, AlgoTrigetInputDto, AlgoIcebergInputDto, AlgoTWAPInputDto, CancelAlgoOrderInputDto, AlgoOrderListInput, AlgoOrderDetails } from "./dto/order.dto";
 import { CancelOrderInputDto, CancelOrderResponseDto } from "./dto/cancel-order.dto";
 import { CurrencyDto } from "./dto/currency.dto";
+import { InstrumentDto } from "./dto/instrument.dto";
 class HttpApi {
     apiClient: AxiosInstance;
     signer: any;
@@ -163,6 +164,14 @@ class HttpApi {
         return res.data;
     }
 
+    async getAlgoOrderList(input: AlgoOrderListInput | undefined = undefined): Promise<AlgoOrderDetails[]> {
+        const res = await this.get<OkxResponse<AlgoOrderDetails[]>>(
+            "/api/v5/trade/orders-algo-pending",
+            input
+        );
+        return res.data;
+    }
+
     async closePositions(input: ClosePositionsInputDto): Promise<ClosePositionsResponseDto[]> {
         const res = await this.post<OkxResponse<ClosePositionsResponseDto[]>>(
             "/api/v5/trade/close-position",
@@ -192,6 +201,19 @@ class HttpApi {
         const res = await this.get<OkxResponse<CurrencyDto[]>>(
             "/api/v5/asset/currencies",
             { ccy }
+        );
+
+        return res.data;
+    }
+
+    async getInstruments(instType: "SPOT" | "MARGIN" | "SWAP" | "FUTURES" | "OPTION", uly: string = "", instId: string = ""): Promise<InstrumentDto[]> {
+        const res = await this.get<OkxResponse<InstrumentDto[]>>(
+            "/api/v5/public/instruments",
+            {
+                instType,
+                uly,
+                instId
+            }
         );
 
         return res.data;

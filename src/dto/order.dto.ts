@@ -96,6 +96,65 @@ export class OrderListInput {
     limit?: string = "100";
 }
 
+export class AlgoOrderListInput {
+    ordType!:
+        | "conditional"
+        | "oco"
+        | "trigger"
+        | "move_order_stop"
+        | "iceberg"
+        | "twap";
+    algoId?: string;
+    clOrdId?:string;
+    instType?: "SPOT" | "MARGIN" | "SWAP" | "FUTURES";
+    instId?: string;
+    after?: string;
+    before?: string;
+    limit?: string = "100";
+}
+
+export class AlgoOrderDetails {
+    activePx!: string;
+    actualPx!: string;
+    actualSide!: string;
+    actualSz!: string;
+    algoId!: string;
+    cTime!: string;
+    callbackRatio!: string;
+    callbackSpread!: string;
+    ccy!: string;
+    clOrdId!: string;
+    instId!: string;
+    instType!: string;
+    lever!: string;
+    moveTriggerPx!: string;
+    ordId!: string;
+    ordPx!: string;
+    ordType!: string;
+    posSide!: string;
+    pxLimit!: string;
+    pxSpread!: string;
+    pxVar!: string;
+    side!: string;
+    slOrdPx!: string;
+    slTriggerPx!: string;
+    slTriggerPxType!: string;
+    state!: string;
+    sz!: string;
+    szLimit!: string;
+    tag!: string;
+    tdMode!: string;
+    tgtCcy!: string;
+    timeInterval!: string;
+    tpOrdPx!: string;
+    tpTriggerPx!: string;
+    tpTriggerPxType!: string;
+    triggerPx!: string;
+    triggerPxType!: string;
+    triggerTime!: string;
+}
+
+
 export class AlgoOrderInpoutDto {
     instId!: string;
     tdMode!: "cash" | "isolated" | "cross";
