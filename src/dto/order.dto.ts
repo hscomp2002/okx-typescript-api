@@ -236,8 +236,8 @@ export class AlgoOrderHistoryInput {
     | "move_order_stop"
     | "iceberg"
     | "twap";
-  state!: "effective" | "canceled" | "order_failed";
-  algoId!: string;
+  state?: "effective" | "canceled" | "order_failed";
+  algoId?: string;
   instType?: "MARGIN" | "FUTURES" | "SWAP" | "SPOT";
   instId?: string;
   after?: string;
