@@ -1,6 +1,6 @@
 {
   "name": "okx-typescript-api",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "typescript module for okx.com API (hscomp2002@gmail.com)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
