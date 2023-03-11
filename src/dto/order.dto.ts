@@ -286,3 +286,87 @@ export class AlgoOrderHistoryResponse {
   last!: string;
   cTime!: string;
 }
+
+export class OrderHistoryInput {
+  instType?: "SPOT" | "MARGIN" | "SWAP" | "FUTURES" | "OPTION";
+  uly?: "FUTURES" | "SWAP" | "OPTION";
+  instFamily?: "FUTURES" | "SWAP" | "OPTION";
+  instId?: string;
+  ordType?:
+    | "market"
+    | "limit"
+    | "post_only"
+    | "fok"
+    | "ioc"
+    | "optimal_limit_ioc";
+  state?: "canceled" | "filled";
+  category?:
+    | "twap"
+    | "adl"
+    | "full_liquidation"
+    | "partial_liquidation"
+    | "delivery"
+    | "ddh";
+  after?: string;
+  before?: string;
+  begin?: string;
+  end?: string;
+  limit?: string = "100";
+}
+
+export class OrderHistoryResponse {
+  instType!: string;
+  instId!: string;
+  ccy!: string;
+  ordId!: string;
+  clOrdId!: string;
+  tag!: string;
+  px!: string;
+  sz!: string;
+  ordType!:
+    | "market"
+    | "limit"
+    | "post_only"
+    | "fok"
+    | "ioc"
+    | "optimal_limit_ioc";
+  side!: string;
+  posSide!: string;
+  tdMode!: string;
+  accFillSz!: string;
+  fillPx!: string;
+  tradeId!: string;
+  fillSz!: string;
+  fillTime!: string;
+  state!: "canceled" | "filled";
+  avgPx!: string;
+  lever!: string;
+  tpTriggerPx!: string;
+  tpTriggerPxType!: "mark" | "index" | "last";
+  tpOrdPx!: string;
+  slTriggerPx!: string;
+  slTriggerPxType!: "mark" | "index" | "last";
+  slOrdPx!: string;
+  feeCcy!: string;
+  fee!: string;
+  rebateCcy!: string;
+  source!: string;
+  rebate!: string;
+  tgtCcy!: string;
+  pnl!: string;
+  category!:
+    | "normal"
+    | "twap"
+    | "adl"
+    | "full_liquidation"
+    | "partial_liquidation"
+    | "delivery"
+    | "ddh";
+  reduceOnly!: string;
+  cancelSource!: string;
+  cancelSourceReason!: string;
+  algoClOrdId!: string;
+  algoId!: string;
+  uTime!: string;
+  cTime!: string;
+}

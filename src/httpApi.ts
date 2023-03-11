@@ -28,6 +28,8 @@ import {
   AlgoOrderDetails,
   AlgoOrderHistoryInput,
   AlgoOrderHistoryResponse,
+  OrderHistoryInput,
+  OrderHistoryResponse,
 } from "./dto/order.dto";
 import {
   CancelOrderInputDto,
@@ -195,6 +197,16 @@ class HttpApi {
   ): Promise<OrderDetails[]> {
     const res = await this.get<OkxResponse<OrderDetails[]>>(
       "/api/v5/trade/orders-pending",
+      input
+    );
+    return res.data;
+  }
+
+  async getOrderHistory7DaysBefore(
+    input: OrderHistoryInput
+  ): Promise<OrderHistoryResponse[]> {
+    const res = await this.get<OkxResponse<OrderHistoryResponse[]>>(
+      "/api/v5/trade/orders-history",
       input
     );
     return res.data;
