@@ -168,11 +168,12 @@ export class AlgoOrderInpoutDto {
     | "iceberg"
     | "twap";
 
-  sz!: string;
+  sz?: string;
   tag?: string;
   reduceOnly?: boolean;
   tgtCcy?: "quote_ccy" | "base_ccy";
   clOrdId?: string;
+  closeFraction?:string;
 }
 
 export class AlgoStopTpInputDto {
